@@ -1,5 +1,7 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.filesystem.internal
 
+
+import com.parisesoftware.excite.filesystem.IFileSystemService
 import groovy.io.FileType
 
 import java.util.function.Predicate

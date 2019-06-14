@@ -1,9 +1,12 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.internal
 
+import com.parisesoftware.excite.IExciteFacade
 import com.parisesoftware.excite.filesystem.internal.FileParser
 import com.parisesoftware.excite.filesystem.IFileParser
 import com.parisesoftware.excite.filesystem.internal.FileSystemService
 import com.parisesoftware.excite.filesystem.IFileSystemService
+import com.parisesoftware.excite.transformer.IMarkupTransformer
+import com.parisesoftware.excite.transformer.internal.MarkupTransformer
 import groovy.util.slurpersupport.GPathResult
 
 /**
