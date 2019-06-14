@@ -1,5 +1,6 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.transformer.internal
 
+import com.parisesoftware.excite.transformer.IMarkupTransformer
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.MarkupBuilder
 
