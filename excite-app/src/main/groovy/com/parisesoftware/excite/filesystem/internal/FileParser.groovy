@@ -1,5 +1,6 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.filesystem.internal
 
+import com.parisesoftware.excite.filesystem.IFileParser
 import groovy.util.slurpersupport.GPathResult
 
 /**

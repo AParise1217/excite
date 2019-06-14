@@ -1,4 +1,4 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.filesystem
 
 import groovy.util.slurpersupport.GPathResult
 
