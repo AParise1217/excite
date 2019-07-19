@@ -15,8 +15,8 @@
     </modules>
 
     <scm>
-        <connection>scm:git:git://github.com/AParise12317/excite.git</connection>
-        <developerConnection>scm:git:git@github.com:AParise12317/excite.git</developerConnection>
+        <connection>scm:git:git://github.com/AParise1217/excite.git</connection>
+        <developerConnection>scm:git:git@github.com:AParise1217/excite.git</developerConnection>
         <url>https://github.com/AParise1217/excite</url>
         <tag>HEAD</tag>
     </scm>
