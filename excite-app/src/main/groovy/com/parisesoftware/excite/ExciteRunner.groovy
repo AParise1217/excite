@@ -1,8 +1,10 @@
 package com.parisesoftware.excite
 
 import com.parisesoftware.excite.output.OutputMethod
+import com.parisesoftware.excite.transformer.operation.GPathResultTransformer
 import groovy.util.slurpersupport.GPathResult
-import groovy.xml.MarkupBuilder
+import groovy.xml.StreamingMarkupBuilder
+import groovy.xml.XmlUtil
 
 import java.util.function.Predicate
 
@@ -13,30 +15,14 @@ class ExciteRunner {
 
     static void main(String[] args) {
 
-        final Closure transformationAlgorithm = { MarkupBuilder builder, GPathResult aComponent ->
-            builder.'content-type'("${aComponent['content-type']}")
-            builder.'display-template'("${aComponent['display-template']}")
-            builder.'merge-strategy'("${aComponent['merge-strategy']}")
-            builder.'objectGroupId'("${aComponent['objectGroupId']}")
-            builder.'objectId'("${aComponent['objectId']}")
-            builder.'file-name'("${aComponent['file-name']}")
-            builder.'internal-name'("${aComponent['internal-name']}")
-            builder.'title_html'("${aComponent['title_html']}")
-            builder.'content_html'("${aComponent['content_html']}")
-            builder.'createdDate'("${aComponent['createdDate']}")
-            builder.'createdDate_dt'("${aComponent['createdDate_dt']}")
-            builder.'lastModifiedDate'("${aComponent['lastModifiedDate']}")
-            builder.'lastModifiedDate_dt'("${aComponent['lastModifiedDate_dt']}")
-            builder.'button'('item-list': "true") {
-                'item'() {
-                    'url'("${aComponent['url']}")
-                    'label'("${aComponent['label']}")
-                }
-            }
+        final Closure transformationAlgorithm = { StreamingMarkupBuilder builder, GPathResult aComponent ->
+
+            GPathResultTransformer.deleteChildNodesWithName(aComponent, 'callout')
+            return XmlUtil.serialize(aComponent)
         }
 
         final Predicate<GPathResult> validationAlgorithm = { GPathResult aComponent ->
-            return aComponent['content-type'] == '/component/ribbon'
+            return aComponent['content-type'] == '/component/level-descriptor'
         }
 
         final String parentDirectory = '/Users/aparise/Projects/craftercms/crafter-authoring/data/repos/sites/pennmutualcom/sandbox/site/'

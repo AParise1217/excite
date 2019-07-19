@@ -2,7 +2,7 @@ package com.parisesoftware.excite.transformer.internal
 
 import com.parisesoftware.excite.transformer.IMarkupTransformer
 import groovy.util.slurpersupport.GPathResult
-import groovy.xml.MarkupBuilder
+import groovy.xml.StreamingMarkupBuilder
 
 /**
  * {@inheritDoc}
@@ -11,21 +11,21 @@ import groovy.xml.MarkupBuilder
  */
 class MarkupTransformer implements IMarkupTransformer {
 
-    private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    private static final String UTF_8_ENCODING = 'UTF-8'
 
     /**
      * {@inheritDoc}
      */
     @Override
     String transform(GPathResult theInputComponent, Closure aTransformationAlgorithm) {
-        StringWriter writer = new StringWriter()
-        MarkupBuilder builder = new MarkupBuilder(writer)
+        StreamingMarkupBuilder builder = new StreamingMarkupBuilder()
+        builder.encoding = UTF_8_ENCODING
 
-        builder.component() {
-            aTransformationAlgorithm.call(builder, theInputComponent)
+        def xml = builder.bind {
+            it.mkp.yieldUnescaped aTransformationAlgorithm.call(builder, theInputComponent)
         }
 
-        return XML_HEADER + writer.toString()
+        return xml.toString()
     }
 
 }
