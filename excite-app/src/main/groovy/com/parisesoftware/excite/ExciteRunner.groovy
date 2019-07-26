@@ -16,7 +16,6 @@ class ExciteRunner {
     static void main(String[] args) {
 
         final Closure transformationAlgorithm = { StreamingMarkupBuilder builder, GPathResult aComponent ->
-
             GPathResultTransformer.deleteChildNodesWithName(aComponent, 'callout')
             return XmlUtil.serialize(aComponent)
         }
