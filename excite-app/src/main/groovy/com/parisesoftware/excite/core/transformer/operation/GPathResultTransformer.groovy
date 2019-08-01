@@ -7,8 +7,8 @@ import groovy.util.slurpersupport.GPathResult
  * <p>
  * Common Transformations to Perform on {@link GPathResult}s
  *
- * @version 1.0
- * @since 1.0
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class GPathResultTransformer {
 

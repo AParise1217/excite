@@ -12,8 +12,8 @@ import java.util.function.Predicate
  * <p>
  * Static Entry-point to the Excite Domain
  *
- * @version 1.0
- * @since 1.0
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class ExciteFacade {
 
