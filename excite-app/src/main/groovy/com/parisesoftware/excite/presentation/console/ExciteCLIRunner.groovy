@@ -1,7 +1,8 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.presentation.console
 
-import com.parisesoftware.excite.output.OutputMethod
-import com.parisesoftware.excite.transformer.operation.GPathResultTransformer
+import com.parisesoftware.excite.core.ExciteFacade
+import com.parisesoftware.excite.core.transformer.operation.GPathResultTransformer
+import com.parisesoftware.excite.infrastructure.output.OutputMethod
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
@@ -10,8 +11,11 @@ import java.util.function.Predicate
 
 /**
  * Main Method Runner to Demo a Sample Usage of EXCITE
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
-class ExciteRunner {
+class ExciteCLIRunner {
 
     static void main(String[] args) {
 

@@ -1,16 +1,15 @@
-package com.parisesoftware.excite.internal.impl
+package com.parisesoftware.excite.core.internal.impl
 
-
-import com.parisesoftware.excite.filesystem.IFileParser
-import com.parisesoftware.excite.filesystem.IFileSystemService
-import com.parisesoftware.excite.filesystem.internal.FileParser
-import com.parisesoftware.excite.filesystem.internal.FilePredicate
-import com.parisesoftware.excite.filesystem.internal.FileSystemService
-import com.parisesoftware.excite.internal.IExciteFacade
-import com.parisesoftware.excite.output.OutputMethod
-import com.parisesoftware.excite.transformer.IMarkupTransformer
-import com.parisesoftware.excite.transformer.internal.MarkupTransformer
-import com.parisesoftware.excite.validation.ValidationMethod
+import com.parisesoftware.excite.core.internal.IExciteFacade
+import com.parisesoftware.excite.core.transformer.IMarkupTransformer
+import com.parisesoftware.excite.core.transformer.internal.MarkupTransformer
+import com.parisesoftware.excite.core.validation.ValidationMethod
+import com.parisesoftware.excite.infrastructure.filesystem.IFileParser
+import com.parisesoftware.excite.infrastructure.filesystem.IFileSystemService
+import com.parisesoftware.excite.infrastructure.filesystem.internal.FileParser
+import com.parisesoftware.excite.infrastructure.filesystem.internal.FilePredicate
+import com.parisesoftware.excite.infrastructure.filesystem.internal.FileSystemService
+import com.parisesoftware.excite.infrastructure.output.OutputMethod
 import groovy.util.slurpersupport.GPathResult
 
 import java.util.function.Predicate
@@ -18,7 +17,11 @@ import java.util.function.Predicate
 /**
  * {@inheritDoc}
  *
+ * <p>
  * Default implementation of {@link IExciteFacade}
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class ExciteFacadeImpl implements IExciteFacade {
 

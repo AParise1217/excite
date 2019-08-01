@@ -1,6 +1,6 @@
-package com.parisesoftware.excite.transformer.internal
+package com.parisesoftware.excite.core.transformer.internal
 
-import com.parisesoftware.excite.transformer.IMarkupTransformer
+import com.parisesoftware.excite.core.transformer.IMarkupTransformer
 import groovy.util.slurpersupport.GPathResult
 import groovy.xml.StreamingMarkupBuilder
 
@@ -8,6 +8,9 @@ import groovy.xml.StreamingMarkupBuilder
  * {@inheritDoc}
  *
  * Default implementation of {@link IMarkupTransformer}
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class MarkupTransformer implements IMarkupTransformer {
 

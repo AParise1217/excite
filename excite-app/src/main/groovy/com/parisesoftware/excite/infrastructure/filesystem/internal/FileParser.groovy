@@ -1,12 +1,16 @@
-package com.parisesoftware.excite.filesystem.internal
+package com.parisesoftware.excite.infrastructure.filesystem.internal
 
-import com.parisesoftware.excite.filesystem.IFileParser
+import com.parisesoftware.excite.infrastructure.filesystem.IFileParser
 import groovy.util.slurpersupport.GPathResult
 
 /**
  * {@inheritDoc}
  *
+ * <p>
  * Default implementation of {@link IFileParser}
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class FileParser implements IFileParser {
 

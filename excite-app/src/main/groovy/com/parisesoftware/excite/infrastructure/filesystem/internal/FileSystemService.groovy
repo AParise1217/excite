@@ -1,15 +1,17 @@
-package com.parisesoftware.excite.filesystem.internal
+package com.parisesoftware.excite.infrastructure.filesystem.internal
 
-
-import com.parisesoftware.excite.filesystem.IFileSystemService
+import com.parisesoftware.excite.infrastructure.filesystem.IFileSystemService
 import groovy.io.FileType
 
 import java.util.function.Predicate
 
 /**
  * {@inheritDoc}
- *
+ * <p>
  * Default implementation of {@link IFileSystemService}
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class FileSystemService implements IFileSystemService {
 

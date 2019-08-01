@@ -1,4 +1,4 @@
-package com.parisesoftware.excite.validation
+package com.parisesoftware.excite.core.validation
 
 import groovy.util.slurpersupport.GPathResult
 

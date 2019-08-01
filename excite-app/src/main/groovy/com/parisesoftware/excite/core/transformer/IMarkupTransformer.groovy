@@ -1,8 +1,10 @@
-package com.parisesoftware.excite.transformer
+package com.parisesoftware.excite.core.transformer
 
 import groovy.util.slurpersupport.GPathResult
 
 /**
+ * Markup Transformer Abstraction
+ * <p>
  * Delegation to handle the transformation of XML Markup
  *
  * @version 1.0

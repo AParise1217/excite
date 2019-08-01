@@ -1,4 +1,4 @@
-package com.parisesoftware.excite.output
+package com.parisesoftware.excite.infrastructure.output
 
 /**
  * Output Method

@@ -1,7 +1,7 @@
-package com.parisesoftware.excite
+package com.parisesoftware.excite.core
 
-import com.parisesoftware.excite.internal.IExciteFacade
-import com.parisesoftware.excite.internal.impl.ExciteFacadeImpl
+import com.parisesoftware.excite.core.internal.IExciteFacade
+import com.parisesoftware.excite.core.internal.impl.ExciteFacadeImpl
 import groovy.util.slurpersupport.GPathResult
 
 import java.util.function.Predicate

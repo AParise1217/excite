@@ -1,4 +1,4 @@
-package com.parisesoftware.excite.transformer.operation
+package com.parisesoftware.excite.core.transformer.operation
 
 import groovy.util.slurpersupport.GPathResult
 

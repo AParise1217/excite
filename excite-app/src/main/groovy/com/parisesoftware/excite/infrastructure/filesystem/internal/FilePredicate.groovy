@@ -1,9 +1,14 @@
-package com.parisesoftware.excite.filesystem.internal
+package com.parisesoftware.excite.infrastructure.filesystem.internal
 
 import java.util.function.Predicate
 
 /**
+ * File Predicate
+ * <p>
  * Collection of Useful Java 8 Predicates for {@link File}s
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
 class FilePredicate {
 
