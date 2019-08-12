@@ -5,7 +5,7 @@
 
     <artifactId>excite-parent</artifactId>
     <groupId>com.parisesoftware</groupId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>Excite :: Parent Pom</name>
     <description>Parent POM to the Extensible XML-based Content and Information Transformation Engine</description>
     <packaging>pom</packaging>
@@ -29,7 +29,7 @@
         <connection>scm:git:git://github.com/AParise1217/excite.git</connection>
         <developerConnection>scm:git:git@github.com:AParise1217/excite.git</developerConnection>
         <url>https://github.com/AParise1217/excite</url>
-        <tag>HEAD</tag>
+        <tag>excite-parent-1.0.1</tag>
     </scm>
 
     <licenses>

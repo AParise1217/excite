@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>excite-commandline</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <dependencies>
         <dependency>
             <groupId>com.parisesoftware</groupId>
             <artifactId>excite-core</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -20,7 +20,7 @@
     <parent>
         <groupId>com.parisesoftware</groupId>
         <artifactId>excite-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
 </project>
