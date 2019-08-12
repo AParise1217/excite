@@ -12,7 +12,8 @@
     <url>https://github.com/AParise1217/excite</url>
 
     <modules>
-        <module>excite-app</module>
+        <module>excite-core</module>
+        <module>excite-commandline</module>
     </modules>
 
     <developers>
