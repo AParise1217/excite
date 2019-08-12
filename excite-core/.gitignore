@@ -1,0 +1,3 @@
+
+# ignore Maven build output
+target/
