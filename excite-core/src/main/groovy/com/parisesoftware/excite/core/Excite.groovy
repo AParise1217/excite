@@ -5,9 +5,6 @@ import com.parisesoftware.excite.core.api.IOutputCommand
 import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.api.IValidationAlgorithm
 import com.parisesoftware.excite.core.internal.ExciteFacadeImpl
-import groovy.util.slurpersupport.GPathResult
-
-import java.util.function.Predicate
 
 /**
  * Excite Facade
@@ -15,22 +12,10 @@ import java.util.function.Predicate
  * <p>
  * Static Entry-point to the Excite Domain
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @since 1.0.0
  */
 class Excite {
-
-    /**
-     * Runs the Excite Application Against the given parameters
-     * @param aDirectory
-     * @param aTransformationAlgorithm
-     * @param aValidationAlgorithm
-     * @param anOutputAlgorithm
-     */
-    static void run(final String aDirectory, final Closure aTransformationAlgorithm,
-                    final Predicate<GPathResult> aValidationAlgorithm, final Closure anOutputAlgorithm) {
-        facade().run(aDirectory, aTransformationAlgorithm, aValidationAlgorithm, anOutputAlgorithm)
-    }
 
     /**
      * Runs the Excite Application Against the given parameters
