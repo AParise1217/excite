@@ -11,28 +11,12 @@ import groovy.xml.XmlUtil
  *
  * Default implementation of {@link IMarkupTransformer}
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @since 1.0.0
  */
 class MarkupTransformer implements IMarkupTransformer {
 
     private static final String UTF_8_ENCODING = 'UTF-8'
-
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    String transform(GPathResult theInputComponent, Closure aTransformationAlgorithm) {
-        StreamingMarkupBuilder builder = new StreamingMarkupBuilder()
-        builder.encoding = UTF_8_ENCODING
-
-        def xml = builder.bind {
-            it.mkp.yieldUnescaped aTransformationAlgorithm.call(builder, theInputComponent)
-        }
-
-        return xml.toString()
-    }
 
     /**
      * {@inheritDoc}
