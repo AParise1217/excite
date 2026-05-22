@@ -1,6 +1,6 @@
 package com.parisesoftware.excite.core.api.resolver
 
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 /**
  * File Parser

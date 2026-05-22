@@ -1,7 +1,8 @@
 package com.parisesoftware.excite.core.internal.parser
 
 import com.parisesoftware.excite.core.api.resolver.IFileParser
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.XmlSlurper
+import groovy.xml.slurpersupport.GPathResult
 
 /**
  * {@inheritDoc}

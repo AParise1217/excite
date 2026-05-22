@@ -2,7 +2,7 @@ package com.parisesoftware.excite.core.internal.transformer
 
 import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 

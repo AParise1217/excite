@@ -1,7 +1,7 @@
 package com.parisesoftware.excite.core.internal.transformer.operation
 
 import groovy.transform.PackageScope
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 /**
  * GPathResult Transformer

@@ -2,7 +2,7 @@ package com.parisesoftware.excite.core.internal.transformer
 
 import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.internal.transformer.operation.GPathResultTransformer
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 /**
  * {@inheritDoc}

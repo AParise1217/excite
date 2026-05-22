@@ -1,6 +1,6 @@
 package com.parisesoftware.excite.core.internal.validation
 
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 import java.util.function.Predicate
 

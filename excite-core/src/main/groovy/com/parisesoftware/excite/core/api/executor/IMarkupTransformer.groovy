@@ -1,7 +1,7 @@
 package com.parisesoftware.excite.core.api.executor
 
 import com.parisesoftware.excite.core.api.ITransformationAlgorithm
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 /**
  * Markup Transformer Abstraction

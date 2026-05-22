@@ -1,6 +1,6 @@
 package com.parisesoftware.excite.core.internal.validation
 
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 import spock.lang.Specification
 
 class AcceptAllValidationTest extends Specification {

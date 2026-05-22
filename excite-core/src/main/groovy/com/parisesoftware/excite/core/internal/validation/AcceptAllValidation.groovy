@@ -1,7 +1,7 @@
 package com.parisesoftware.excite.core.internal.validation
 
 import com.parisesoftware.excite.core.api.IValidationAlgorithm
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 /**
  * {@inheritDoc}

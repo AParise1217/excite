@@ -11,7 +11,7 @@ import com.parisesoftware.excite.core.internal.parser.FilePredicate
 import com.parisesoftware.excite.core.internal.parser.FileSystemService
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
 import com.parisesoftware.excite.core.internal.transformer.MarkupTransformer
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
 
 import java.util.function.Predicate
 
