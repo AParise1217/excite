@@ -15,7 +15,7 @@ class FilePredicate {
     private static final String XML_FILE_EXTENSION = '.xml'
 
     static final Predicate<File> isXmlFile = { File aFile ->
-        aFile.name.endsWith(XML_FILE_EXTENSION)
+        aFile.name.toLowerCase().endsWith(XML_FILE_EXTENSION)
     }
 
 }
