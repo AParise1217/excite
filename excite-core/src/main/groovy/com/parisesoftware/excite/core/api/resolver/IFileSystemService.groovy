@@ -22,4 +22,8 @@ interface IFileSystemService {
      */
     List<File> getFilesInDirectory(final String aFilePath, final Predicate<File> isApplicableFile)
 
+    default List<File> getFilesInDirectory(final String aFilePath) {
+        return getFilesInDirectory(aFilePath, com.parisesoftware.excite.core.internal.parser.FilePredicate.isXmlFile)
+    }
+
 }

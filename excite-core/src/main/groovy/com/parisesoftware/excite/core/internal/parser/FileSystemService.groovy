@@ -1,5 +1,6 @@
 package com.parisesoftware.excite.core.internal.parser
 
+import com.parisesoftware.excite.core.api.ExciteException
 import com.parisesoftware.excite.core.api.resolver.IFileSystemService
 import groovy.io.FileType
 
@@ -23,6 +24,9 @@ class FileSystemService implements IFileSystemService {
         List<File> filesInDirectory = []
 
         File parentDirectory = new File(aFilePath)
+        if (!parentDirectory.exists() || !parentDirectory.isDirectory()) {
+            throw new ExciteException("Directory does not exist or is not readable: ${aFilePath}")
+        }
         parentDirectory.eachFileRecurse(FileType.FILES) { final File curFile ->
             if (isApplicableFile.test(curFile)) {
                 filesInDirectory << curFile
