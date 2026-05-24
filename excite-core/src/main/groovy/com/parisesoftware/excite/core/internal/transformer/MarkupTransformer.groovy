@@ -4,6 +4,8 @@ import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
 import groovy.xml.XmlUtil
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * {@inheritDoc}
@@ -15,11 +17,14 @@ import groovy.xml.XmlUtil
  */
 class MarkupTransformer implements IMarkupTransformer {
 
+    private static final Logger log = LoggerFactory.getLogger(MarkupTransformer)
+
     /**
      * {@inheritDoc}
      */
     @Override
     String transform(GPathResult theInputComponent, ITransformationAlgorithm aTransformationAlgorithm) {
+        log.debug('Transforming markup')
         aTransformationAlgorithm.execute(theInputComponent)
         return XmlUtil.serialize(theInputComponent)
     }
