@@ -1,5 +1,6 @@
 package com.parisesoftware.excite.core.internal.validation
 
+import groovy.xml.XmlSlurper
 import groovy.xml.slurpersupport.GPathResult
 import spock.lang.Specification
 
@@ -10,8 +11,9 @@ class AcceptAllValidationTest extends Specification {
         new AcceptAllValidation().validate(aNode) == isValid
 
         where:
-        aNode               || isValid
-        null                || false
+        aNode                                             || isValid
+        null                                              || false
+        new XmlSlurper().parseText('<root/>')             || true
     }
 
 }
