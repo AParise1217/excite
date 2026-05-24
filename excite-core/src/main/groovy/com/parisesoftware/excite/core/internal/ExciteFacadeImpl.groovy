@@ -13,6 +13,8 @@ import com.parisesoftware.excite.core.api.ExciteException
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
 import com.parisesoftware.excite.core.internal.transformer.MarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.util.function.Predicate
 
@@ -26,6 +28,8 @@ import java.util.function.Predicate
  * @since 1.0.0
  */
 class ExciteFacadeImpl implements IExciteFacade {
+
+    private static final Logger log = LoggerFactory.getLogger(ExciteFacadeImpl)
 
     private static final Predicate<File> GET_ONLY_XML_FILES = FilePredicate.isXmlFile
 
@@ -58,8 +62,10 @@ class ExciteFacadeImpl implements IExciteFacade {
         if (aTransformationAlgorithm == null) throw new IllegalArgumentException('aTransformationAlgorithm must not be null')
         if (aValidationAlgorithm == null) throw new IllegalArgumentException('aValidationAlgorithm must not be null')
         if (anOutputCommand == null) throw new IllegalArgumentException('anOutputCommand must not be null')
+        log.debug('Running Excite against directory: {}', aDirectory)
         List<File> filesInDirectory = this.fileSystemService.getFilesInDirectory(aDirectory, GET_ONLY_XML_FILES)
         filesInDirectory.each { File curFile ->
+            log.info('Processing: {}', curFile.name)
             try {
                 GPathResult fileContents = this.fileParser.parseFile(curFile)
                 if (aValidationAlgorithm.validate(fileContents)) {
@@ -69,8 +75,10 @@ class ExciteFacadeImpl implements IExciteFacade {
             } catch (ExciteException e) {
                 throw e
             } catch (Exception e) {
+                log.error('Failed to process file: {}', curFile.absolutePath, e)
                 throw new ExciteException("Failed to process file: ${curFile.absolutePath}", e)
             }
         }
+        log.info('Processed {} file(s) in: {}', filesInDirectory.size(), aDirectory)
     }
 }

@@ -2,6 +2,8 @@ package com.parisesoftware.excite.core.internal.transformer.operation
 
 import groovy.transform.PackageScope
 import groovy.xml.slurpersupport.GPathResult
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * GPathResult Transformer
@@ -13,11 +15,13 @@ import groovy.xml.slurpersupport.GPathResult
  */
 class GPathResultTransformer {
 
+    private static final Logger log = LoggerFactory.getLogger(GPathResultTransformer)
+
     @PackageScope
     static GPathResult findAllChildrenWithName(GPathResult aComponent, final String aName) {
         def result = aComponent.children().findAll { GPathResult curChild -> curChild.name() == aName }
         if (!result) {
-            System.err.println("[EXCITE WARN] No child nodes found with name '${aName}'")
+            log.warn("No child nodes found with name '{}'", aName)
         }
         return result
     }
