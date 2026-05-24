@@ -1,6 +1,8 @@
 package com.parisesoftware.excite.core.api.resolver
 
+import java.io.IOException
 import java.util.function.Predicate
+import java.util.stream.Stream
 
 /**
  * File System Service Abstraction
@@ -24,6 +26,17 @@ interface IFileSystemService {
 
     default List<File> getFilesInDirectory(final String aFilePath) {
         return getFilesInDirectory(aFilePath, com.parisesoftware.excite.core.internal.parser.FilePredicate.isXmlFile)
+    }
+
+    default Stream<File> streamFilesInDirectory(final String aFilePath, final Predicate<File> isApplicableFile) {
+        try {
+            return java.nio.file.Files.walk(java.nio.file.Paths.get(aFilePath))
+                .filter { java.nio.file.Path p -> java.nio.file.Files.isRegularFile(p) }
+                .map { java.nio.file.Path p -> p.toFile() }
+                .filter { File f -> isApplicableFile.test(f) }
+        } catch (IOException e) {
+            throw new com.parisesoftware.excite.core.api.ExciteException("Failed to stream directory: ${aFilePath}", e)
+        }
     }
 
 }

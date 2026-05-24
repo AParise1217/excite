@@ -53,6 +53,10 @@ class ExciteFacadeImpl implements IExciteFacade {
 
     /**
      * {@inheritDoc}
+     *
+     * <p>
+     * Files are processed concurrently via a parallel stream. Custom {@link IOutputCommand}
+     * implementations must be thread-safe.
      */
     void run(final String aDirectory,
              final ITransformationAlgorithm aTransformationAlgorithm,
@@ -64,8 +68,7 @@ class ExciteFacadeImpl implements IExciteFacade {
         if (anOutputCommand == null) throw new IllegalArgumentException('anOutputCommand must not be null')
         log.debug('Running Excite against directory: {}', aDirectory)
         List<File> filesInDirectory = this.fileSystemService.getFilesInDirectory(aDirectory, GET_ONLY_XML_FILES)
-        filesInDirectory.each { File curFile ->
-            log.info('Processing: {}', curFile.name)
+        filesInDirectory.parallelStream().forEach { File curFile ->
             try {
                 GPathResult fileContents = this.fileParser.parseFile(curFile)
                 if (aValidationAlgorithm.validate(fileContents)) {
@@ -73,6 +76,7 @@ class ExciteFacadeImpl implements IExciteFacade {
                     anOutputCommand.execute(curFile, transformedContent)
                 }
             } catch (ExciteException e) {
+                log.error('Failed to process file: {}', curFile.absolutePath, e)
                 throw e
             } catch (Exception e) {
                 log.error('Failed to process file: {}', curFile.absolutePath, e)
