@@ -15,7 +15,11 @@ class GPathResultTransformer {
 
     @PackageScope
     static GPathResult findAllChildrenWithName(GPathResult aComponent, final String aName) {
-        return aComponent.children().findAll { GPathResult curChild -> curChild.name() == aName }
+        def result = aComponent.children().findAll { GPathResult curChild -> curChild.name() == aName }
+        if (!result) {
+            System.err.println("[EXCITE WARN] No child nodes found with name '${aName}'")
+        }
+        return result
     }
 
     /**

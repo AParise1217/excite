@@ -30,7 +30,9 @@ class ChildNodeHasValueValidation implements IValidationAlgorithm {
      * @since 1.0.1
      */
     boolean validate(GPathResult node) {
-        return node[this.childNodeName] == this.childNodeValue
+        if (node == null) return false
+        def childValue = node[this.childNodeName]
+        return childValue != null && childValue.text() == this.childNodeValue
     }
 
 }
