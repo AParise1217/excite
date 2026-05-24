@@ -9,6 +9,7 @@ import com.parisesoftware.excite.core.api.IValidationAlgorithm
 import com.parisesoftware.excite.core.internal.parser.FileParser
 import com.parisesoftware.excite.core.internal.parser.FilePredicate
 import com.parisesoftware.excite.core.internal.parser.FileSystemService
+import com.parisesoftware.excite.core.api.ExciteException
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
 import com.parisesoftware.excite.core.internal.transformer.MarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
@@ -40,6 +41,12 @@ class ExciteFacadeImpl implements IExciteFacade {
         this.fileParser = new FileParser()
     }
 
+    ExciteFacadeImpl(IMarkupTransformer markupTransformer, IFileSystemService fileSystemService, IFileParser fileParser) {
+        this.markupTransformer = markupTransformer
+        this.fileSystemService = fileSystemService
+        this.fileParser = fileParser
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -47,13 +54,22 @@ class ExciteFacadeImpl implements IExciteFacade {
              final ITransformationAlgorithm aTransformationAlgorithm,
              final IValidationAlgorithm aValidationAlgorithm,
              final IOutputCommand anOutputCommand) {
+        if (aDirectory == null) throw new IllegalArgumentException('aDirectory must not be null')
+        if (aTransformationAlgorithm == null) throw new IllegalArgumentException('aTransformationAlgorithm must not be null')
+        if (aValidationAlgorithm == null) throw new IllegalArgumentException('aValidationAlgorithm must not be null')
+        if (anOutputCommand == null) throw new IllegalArgumentException('anOutputCommand must not be null')
         List<File> filesInDirectory = this.fileSystemService.getFilesInDirectory(aDirectory, GET_ONLY_XML_FILES)
         filesInDirectory.each { File curFile ->
-            GPathResult fileContents = this.fileParser.parseFile(curFile)
-
-            if (aValidationAlgorithm.validate(fileContents)) {
-                String transformedContent = this.markupTransformer.transform(fileContents, aTransformationAlgorithm)
-                anOutputCommand.execute(curFile, transformedContent)
+            try {
+                GPathResult fileContents = this.fileParser.parseFile(curFile)
+                if (aValidationAlgorithm.validate(fileContents)) {
+                    String transformedContent = this.markupTransformer.transform(fileContents, aTransformationAlgorithm)
+                    anOutputCommand.execute(curFile, transformedContent)
+                }
+            } catch (ExciteException e) {
+                throw e
+            } catch (Exception e) {
+                throw new ExciteException("Failed to process file: ${curFile.absolutePath}", e)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.parisesoftware.excite.core.internal.parser
 
+import com.parisesoftware.excite.core.api.ExciteException
 import com.parisesoftware.excite.core.api.resolver.IFileParser
 import groovy.xml.XmlSlurper
 import groovy.xml.slurpersupport.GPathResult
@@ -20,8 +21,12 @@ class FileParser implements IFileParser {
      */
     @Override
     GPathResult parseFile(File aFile) {
-        final String fileText = aFile.text
-        return new XmlSlurper().parseText(fileText)
+        try {
+            final String fileText = aFile.getText('UTF-8')
+            return new XmlSlurper().parseText(fileText)
+        } catch (Exception e) {
+            throw new ExciteException("Failed to parse XML file: ${aFile.absolutePath}", e)
+        }
     }
 
 }
