@@ -6,6 +6,48 @@
 ## XML Transformations made *groovy*!
 
 ___
+## Dependency
+
+```xml
+<dependency>
+    <groupId>com.parisesoftware</groupId>
+    <artifactId>excite-core</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+## Built-in Implementations
+
+| Interface | Implementation | Behavior |
+|---|---|---|
+| `ITransformationAlgorithm` | `RenameChildNodeTransformation` | Renames all child nodes matching a given name |
+| `ITransformationAlgorithm` | `DeleteChildNodeByNameTransformation` | Deletes all child nodes matching a given name |
+| `IValidationAlgorithm` | `AcceptAllValidation` | Passes all non-null nodes |
+| `IValidationAlgorithm` | `ChildNodeHasValueValidation` | Passes nodes where a named child matches a value |
+| `IOutputCommand` | `OverwriteFileOutputCommand` | Atomically overwrites the source file with transformed content |
+| `IOutputCommand` | `ConsoleOutputCommand` | Prints transformed content to stdout |
+
+## Usage
+
+```groovy
+import com.parisesoftware.excite.core.Excite
+import com.parisesoftware.excite.core.internal.transformer.RenameChildNodeTransformation
+import com.parisesoftware.excite.core.internal.validation.ChildNodeHasValueValidation
+import com.parisesoftware.excite.core.internal.output.OverwriteFileOutputCommand
+
+Excite.run(
+    '/path/to/xml/directory',
+    new RenameChildNodeTransformation('description', 'description_html'),
+    new ChildNodeHasValueValidation('content-type', '/component/article'),
+    new OverwriteFileOutputCommand()
+)
+```
+
+This will recursively scan the directory for XML files, pass each one through the validation algorithm, apply the transformation to those that pass, and write the result back using the output command.
+
+> **Note on XML namespaces:** Groovy's `XmlSlurper` strips namespace prefixes by default. Validation and transformation operate on local element names only; namespace-qualified files are supported but namespace URIs are not accessible via the standard implementations.
+
+___
 # Releasing to Maven Central
 ## Performing a Release Deployment
 *Note: This must occur prior to the Release Deployment!*
