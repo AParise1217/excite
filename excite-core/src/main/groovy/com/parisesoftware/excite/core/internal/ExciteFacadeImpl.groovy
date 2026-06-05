@@ -9,7 +9,6 @@ import com.parisesoftware.excite.core.api.IValidationAlgorithm
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
 import com.parisesoftware.excite.core.api.resolver.IFileParser
 import com.parisesoftware.excite.core.api.resolver.IFileSystemService
-import com.parisesoftware.excite.core.internal.GPathResultXmlNode
 import com.parisesoftware.excite.core.internal.parser.FilePredicate
 import com.parisesoftware.excite.core.internal.parser.FileParser
 import com.parisesoftware.excite.core.internal.parser.FileSystemService
@@ -18,6 +17,7 @@ import groovy.xml.slurpersupport.GPathResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
 
 /**
@@ -71,6 +71,7 @@ class ExciteFacadeImpl implements IExciteFacade {
         if (anOutputCommand == null) throw new IllegalArgumentException('anOutputCommand must not be null')
         log.debug('Running Excite against directory: {}', aDirectory)
         List<File> filesInDirectory = this.fileSystemService.getFilesInDirectory(aDirectory, GET_ONLY_XML_FILES)
+        AtomicInteger processedCount = new AtomicInteger(0)
         filesInDirectory.parallelStream().forEach { File curFile ->
             try {
                 GPathResult fileContents = this.fileParser.parseFile(curFile)
@@ -79,6 +80,7 @@ class ExciteFacadeImpl implements IExciteFacade {
                     aTransformationAlgorithm.execute(xmlNode)
                     String transformedContent = this.markupTransformer.serialize(xmlNode.getGPathResult())
                     anOutputCommand.execute(curFile, transformedContent)
+                    processedCount.incrementAndGet()
                 }
             } catch (ExciteException e) {
                 log.error('Failed to process file: {}', curFile.absolutePath, e)
@@ -88,7 +90,7 @@ class ExciteFacadeImpl implements IExciteFacade {
                 throw new ExciteException("Failed to process file: ${curFile.absolutePath}", e)
             }
         }
-        log.info('Processed {} file(s) in: {}', filesInDirectory.size(), aDirectory)
-        return new ExciteResult(filesInDirectory.size())
+        log.info('Processed {} file(s) in: {}', processedCount.get(), aDirectory)
+        return new ExciteResult(processedCount.get())
     }
 }

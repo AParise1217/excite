@@ -93,7 +93,7 @@ class GPathResultXmlNode implements MutableXmlNode {
      */
     @groovy.transform.PackageScope
     GPathResult getGPathResult() {
-        return node
+        return currentNode()
     }
 
     /**
