@@ -1,21 +1,22 @@
 package com.parisesoftware.excite.core.internal
 
+import com.parisesoftware.excite.core.api.ExciteException
+import com.parisesoftware.excite.core.api.ExciteResult
 import com.parisesoftware.excite.core.api.IExciteFacade
-import com.parisesoftware.excite.core.api.resolver.IFileParser
-import com.parisesoftware.excite.core.api.resolver.IFileSystemService
 import com.parisesoftware.excite.core.api.IOutputCommand
 import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.api.IValidationAlgorithm
-import com.parisesoftware.excite.core.internal.parser.FileParser
-import com.parisesoftware.excite.core.internal.parser.FilePredicate
-import com.parisesoftware.excite.core.internal.parser.FileSystemService
-import com.parisesoftware.excite.core.api.ExciteException
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
+import com.parisesoftware.excite.core.api.resolver.IFileParser
+import com.parisesoftware.excite.core.api.resolver.IFileSystemService
+import com.parisesoftware.excite.core.internal.GPathResultXmlNode
+import com.parisesoftware.excite.core.internal.parser.FilePredicate
+import com.parisesoftware.excite.core.internal.parser.FileParser
+import com.parisesoftware.excite.core.internal.parser.FileSystemService
 import com.parisesoftware.excite.core.internal.transformer.MarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.parisesoftware.excite.core.internal.GPathResultXmlNode
 
 import java.util.function.Predicate
 
@@ -59,10 +60,11 @@ class ExciteFacadeImpl implements IExciteFacade {
      * Files are processed concurrently via a parallel stream. Custom {@link IOutputCommand}
      * implementations must be thread-safe.
      */
-    void run(final String aDirectory,
-             final ITransformationAlgorithm aTransformationAlgorithm,
-             final IValidationAlgorithm aValidationAlgorithm,
-             final IOutputCommand anOutputCommand) {
+    @Override
+    ExciteResult run(final String aDirectory,
+                     final ITransformationAlgorithm aTransformationAlgorithm,
+                     final IValidationAlgorithm aValidationAlgorithm,
+                     final IOutputCommand anOutputCommand) {
         if (aDirectory == null) throw new IllegalArgumentException('aDirectory must not be null')
         if (aTransformationAlgorithm == null) throw new IllegalArgumentException('aTransformationAlgorithm must not be null')
         if (aValidationAlgorithm == null) throw new IllegalArgumentException('aValidationAlgorithm must not be null')
@@ -87,5 +89,6 @@ class ExciteFacadeImpl implements IExciteFacade {
             }
         }
         log.info('Processed {} file(s) in: {}', filesInDirectory.size(), aDirectory)
+        return new ExciteResult(filesInDirectory.size())
     }
 }
