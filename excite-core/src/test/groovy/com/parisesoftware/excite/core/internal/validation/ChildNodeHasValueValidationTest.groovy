@@ -1,7 +1,6 @@
 package com.parisesoftware.excite.core.internal.validation
 
-import groovy.xml.XmlSlurper
-import groovy.xml.slurpersupport.GPathResult
+import com.parisesoftware.excite.core.api.XmlNode
 import spock.lang.Specification
 
 class ChildNodeHasValueValidationTest extends Specification {
@@ -11,28 +10,30 @@ class ChildNodeHasValueValidationTest extends Specification {
         new ChildNodeHasValueValidation('type', 'match').validate(null) == false
     }
 
-    def "validate returns false when target child node is absent"() {
+    def "validate returns false when child is absent"() {
         given:
-        GPathResult node = new XmlSlurper().parseText('<root/>')
+        XmlNode node = Mock(XmlNode)
+        node.getChildText('type') >> Optional.empty()
 
         expect:
         new ChildNodeHasValueValidation('type', 'match').validate(node) == false
     }
 
-    def "validate returns false when child node has wrong value"() {
+    def "validate returns false when child has wrong value"() {
         given:
-        GPathResult node = new XmlSlurper().parseText('<root><type>wrong</type></root>')
+        XmlNode node = Mock(XmlNode)
+        node.getChildText('type') >> Optional.of('wrong')
 
         expect:
         new ChildNodeHasValueValidation('type', 'match').validate(node) == false
     }
 
-    def "validate returns true when child node has correct value"() {
+    def "validate returns true when child has correct value"() {
         given:
-        GPathResult node = new XmlSlurper().parseText('<root><type>match</type></root>')
+        XmlNode node = Mock(XmlNode)
+        node.getChildText('type') >> Optional.of('match')
 
         expect:
         new ChildNodeHasValueValidation('type', 'match').validate(node) == true
     }
-
 }
