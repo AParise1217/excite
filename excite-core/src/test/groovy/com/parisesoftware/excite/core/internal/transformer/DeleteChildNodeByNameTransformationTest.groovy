@@ -1,23 +1,18 @@
 package com.parisesoftware.excite.core.internal.transformer
 
-import groovy.xml.XmlSlurper
-import groovy.xml.XmlUtil
-import groovy.xml.slurpersupport.GPathResult
+import com.parisesoftware.excite.core.api.MutableXmlNode
 import spock.lang.Specification
 
 class DeleteChildNodeByNameTransformationTest extends Specification {
 
-    def "execute removes the target child node"() {
+    def "execute delegates deleteChildrenNamed to the node"() {
         given:
-        GPathResult root = new XmlSlurper().parseText('<root><target>value</target><other>keep</other></root>')
+        MutableXmlNode node = Mock(MutableXmlNode)
 
         when:
-        new DeleteChildNodeByNameTransformation('target').execute(root)
-        String result = XmlUtil.serialize(root)
+        new DeleteChildNodeByNameTransformation('target').execute(node)
 
         then:
-        !result.contains('<target>')
-        result.contains('keep')
+        1 * node.deleteChildrenNamed('target')
     }
-
 }
