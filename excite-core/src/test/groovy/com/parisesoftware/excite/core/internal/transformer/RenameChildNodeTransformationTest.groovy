@@ -1,24 +1,18 @@
 package com.parisesoftware.excite.core.internal.transformer
 
-import groovy.xml.XmlSlurper
-import groovy.xml.XmlUtil
-import groovy.xml.slurpersupport.GPathResult
+import com.parisesoftware.excite.core.api.MutableXmlNode
 import spock.lang.Specification
 
 class RenameChildNodeTransformationTest extends Specification {
 
-    def "execute renames old node to new node and preserves value"() {
+    def "execute delegates renameChildrenNamed to the node"() {
         given:
-        GPathResult root = new XmlSlurper().parseText('<root><old>value</old></root>')
+        MutableXmlNode node = Mock(MutableXmlNode)
 
         when:
-        new RenameChildNodeTransformation('old', 'newname').execute(root)
-        String result = XmlUtil.serialize(root)
+        new RenameChildNodeTransformation('old', 'newname').execute(node)
 
         then:
-        result.contains('newname')
-        result.contains('value')
-        !result.contains('<old>')
+        1 * node.renameChildrenNamed('old', 'newname')
     }
-
 }
