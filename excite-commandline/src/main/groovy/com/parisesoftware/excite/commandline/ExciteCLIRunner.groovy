@@ -36,7 +36,7 @@ class ExciteCLIRunner {
         final IValidationAlgorithm encapsulatedValidation =
             new ChildNodeHasValueValidation('content-type', '/component/person')
 
-        Excite.run(parentDirectory, encapsulatedTransformation, encapsulatedValidation, encapsulatedOutputCommand)
+        Excite.builder(parentDirectory, encapsulatedTransformation, encapsulatedValidation, encapsulatedOutputCommand).run()
     }
 
 }

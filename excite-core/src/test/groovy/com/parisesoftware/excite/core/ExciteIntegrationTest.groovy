@@ -1,5 +1,6 @@
 package com.parisesoftware.excite.core
 
+import com.parisesoftware.excite.core.api.ExciteResult
 import com.parisesoftware.excite.core.internal.output.ConsoleOutputCommand
 import com.parisesoftware.excite.core.internal.transformer.DeleteChildNodeByNameTransformation
 import com.parisesoftware.excite.core.internal.validation.ChildNodeHasValueValidation
@@ -11,7 +12,7 @@ class ExciteIntegrationTest extends Specification {
     PrintStream originalOut
     ByteArrayOutputStream capturedOut
 
-    def "run processes matching XML file and deletes type node, skipping non-matching file"() {
+    def "builder processes matching XML file and deletes type node, skipping non-matching file"() {
         given:
         tempDir = File.createTempDir()
         new File(tempDir, 'match.xml').setText('<root><type>target</type></root>', 'UTF-8')
@@ -22,14 +23,15 @@ class ExciteIntegrationTest extends Specification {
         System.setOut(new PrintStream(capturedOut))
 
         when:
-        Excite.run(
+        ExciteResult result = Excite.builder(
             tempDir.absolutePath,
             new DeleteChildNodeByNameTransformation('type'),
             new ChildNodeHasValueValidation('type', 'target'),
             new ConsoleOutputCommand()
-        )
+        ).run()
 
         then:
+        result.filesProcessed == 1
         String output = capturedOut.toString()
         output.contains('<?xml')
         !output.contains('<type>')
@@ -40,5 +42,4 @@ class ExciteIntegrationTest extends Specification {
         System.setOut(originalOut)
         tempDir?.deleteDir()
     }
-
 }
