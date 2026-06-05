@@ -15,6 +15,7 @@ import com.parisesoftware.excite.core.internal.transformer.MarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import com.parisesoftware.excite.core.internal.GPathResultXmlNode
 
 import java.util.function.Predicate
 
@@ -71,8 +72,10 @@ class ExciteFacadeImpl implements IExciteFacade {
         filesInDirectory.parallelStream().forEach { File curFile ->
             try {
                 GPathResult fileContents = this.fileParser.parseFile(curFile)
-                if (aValidationAlgorithm.validate(fileContents)) {
-                    String transformedContent = this.markupTransformer.transform(fileContents, aTransformationAlgorithm)
+                GPathResultXmlNode xmlNode = new GPathResultXmlNode(fileContents)
+                if (aValidationAlgorithm.validate(xmlNode)) {
+                    aTransformationAlgorithm.execute(xmlNode)
+                    String transformedContent = this.markupTransformer.serialize(xmlNode.getGPathResult())
                     anOutputCommand.execute(curFile, transformedContent)
                 }
             } catch (ExciteException e) {
