@@ -1,19 +1,20 @@
 package com.parisesoftware.excite.core.internal.validation
 
-import groovy.xml.XmlSlurper
-import groovy.xml.slurpersupport.GPathResult
+import com.parisesoftware.excite.core.api.XmlNode
 import spock.lang.Specification
 
 class AcceptAllValidationTest extends Specification {
 
-    def "validation of a GPathResult"(GPathResult aNode, boolean isValid) {
+    def "validate returns false for null node"() {
         expect:
-        new AcceptAllValidation().validate(aNode) == isValid
-
-        where:
-        aNode                                             || isValid
-        null                                              || false
-        new XmlSlurper().parseText('<root/>')             || true
+        new AcceptAllValidation().validate(null) == false
     }
 
+    def "validate returns true for a non-null XmlNode"() {
+        given:
+        XmlNode node = Mock(XmlNode)
+
+        expect:
+        new AcceptAllValidation().validate(node) == true
+    }
 }
