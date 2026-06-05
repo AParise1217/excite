@@ -37,6 +37,25 @@ class Excite {
     }
 
     /**
+     * Creates an ExciteBuilder with the given parameters
+     * @param directory to scan for potential files
+     * @param transformation to perform on the files that pass the validation
+     * @param validation to filter the discovered files in the given directory
+     * @param output to handle exporting the resultant transformed content
+     * @return {@code ExciteBuilder} configured with the provided parameters
+     */
+    static ExciteBuilder builder(String directory,
+                                  ITransformationAlgorithm transformation,
+                                  IValidationAlgorithm validation,
+                                  IOutputCommand output) {
+        if (directory == null) throw new IllegalArgumentException('directory must not be null')
+        if (transformation == null) throw new IllegalArgumentException('transformation must not be null')
+        if (validation == null) throw new IllegalArgumentException('validation must not be null')
+        if (output == null) throw new IllegalArgumentException('output must not be null')
+        return new ExciteBuilder(directory, transformation, validation, output)
+    }
+
+    /**
      * @return {@code IExciteFacade} an instance of {@link Excite}
      */
     private static IExciteFacade facade() {
