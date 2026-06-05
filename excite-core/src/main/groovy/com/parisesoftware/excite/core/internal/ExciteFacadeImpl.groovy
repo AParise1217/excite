@@ -34,11 +34,11 @@ class ExciteFacadeImpl implements IExciteFacade {
 
     private static final Predicate<File> GET_ONLY_XML_FILES = FilePredicate.isXmlFile
 
-    IMarkupTransformer markupTransformer
+    private IMarkupTransformer markupTransformer
 
-    IFileSystemService fileSystemService
+    private IFileSystemService fileSystemService
 
-    IFileParser fileParser
+    private IFileParser fileParser
 
     ExciteFacadeImpl() {
         this.markupTransformer = new MarkupTransformer()

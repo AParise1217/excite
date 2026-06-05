@@ -15,5 +15,7 @@ class MarkupTransformerTest extends Specification {
 
         then:
         result.startsWith('<?xml')
+        result.contains('child')
+        result.contains('text')
     }
 }
