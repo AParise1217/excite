@@ -20,6 +20,9 @@ class GPathResultXmlNode implements MutableXmlNode {
 
     private final GPathResult node
 
+    /** Cached post-mutation view. {@code null} means pristine — no serialize+reparse needed. */
+    private GPathResult resolvedNode = null
+
     GPathResultXmlNode(GPathResult node) {
         this.node = node
     }
@@ -54,11 +57,13 @@ class GPathResultXmlNode implements MutableXmlNode {
     @Override
     void renameChildrenNamed(String oldName, String newName) {
         GPathResultTransformer.renameChildNodesWithName(node, oldName, newName)
+        resolvedNode = new XmlSlurper().parseText(XmlUtil.serialize(node))
     }
 
     @Override
     void deleteChildrenNamed(String name) {
         GPathResultTransformer.deleteChildNodesWithName(node, name)
+        resolvedNode = new XmlSlurper().parseText(XmlUtil.serialize(node))
     }
 
     @Override
@@ -83,21 +88,22 @@ class GPathResultXmlNode implements MutableXmlNode {
 
     /**
      * Returns the underlying GPathResult for use by internal components (e.g. MarkupTransformer).
-     * Not part of the public API.
+     * Not part of the public API; restricted to the {@code com.parisesoftware.excite.core.internal} package.
      * @return the wrapped GPathResult
      */
+    @groovy.transform.PackageScope
     GPathResult getGPathResult() {
         return node
     }
 
     /**
-     * Returns a fresh GPathResult reflecting any pending mutations (replaceNode etc.).
-     * GPathResult's children() is read from the raw Node.children list and does not reflect
-     * replacementNodeStack mutations until serialization. Re-parsing via XmlUtil.serialize
-     * gives a consistent post-mutation view for read operations.
+     * Returns a consistent view of the node for read operations.
+     * <p>
+     * Fast path: if no mutations have occurred ({@code resolvedNode == null}), the original
+     * wrapped node is returned directly — no serialize+reparse overhead.
+     * After a mutation, the cached post-mutation parse result is returned instead.
      */
     private GPathResult currentNode() {
-        String serialized = XmlUtil.serialize(node)
-        return new XmlSlurper().parseText(serialized)
+        return resolvedNode != null ? resolvedNode : node
     }
 }
