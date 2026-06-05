@@ -1,21 +1,23 @@
 package com.parisesoftware.excite.core.internal
 
+import com.parisesoftware.excite.core.api.ExciteException
+import com.parisesoftware.excite.core.api.ExciteResult
 import com.parisesoftware.excite.core.api.IExciteFacade
-import com.parisesoftware.excite.core.api.resolver.IFileParser
-import com.parisesoftware.excite.core.api.resolver.IFileSystemService
 import com.parisesoftware.excite.core.api.IOutputCommand
 import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.api.IValidationAlgorithm
-import com.parisesoftware.excite.core.internal.parser.FileParser
-import com.parisesoftware.excite.core.internal.parser.FilePredicate
-import com.parisesoftware.excite.core.internal.parser.FileSystemService
-import com.parisesoftware.excite.core.api.ExciteException
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
+import com.parisesoftware.excite.core.api.resolver.IFileParser
+import com.parisesoftware.excite.core.api.resolver.IFileSystemService
+import com.parisesoftware.excite.core.internal.parser.FilePredicate
+import com.parisesoftware.excite.core.internal.parser.FileParser
+import com.parisesoftware.excite.core.internal.parser.FileSystemService
 import com.parisesoftware.excite.core.internal.transformer.MarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Predicate
 
 /**
@@ -33,11 +35,11 @@ class ExciteFacadeImpl implements IExciteFacade {
 
     private static final Predicate<File> GET_ONLY_XML_FILES = FilePredicate.isXmlFile
 
-    IMarkupTransformer markupTransformer
+    private IMarkupTransformer markupTransformer
 
-    IFileSystemService fileSystemService
+    private IFileSystemService fileSystemService
 
-    IFileParser fileParser
+    private IFileParser fileParser
 
     ExciteFacadeImpl() {
         this.markupTransformer = new MarkupTransformer()
@@ -58,22 +60,27 @@ class ExciteFacadeImpl implements IExciteFacade {
      * Files are processed concurrently via a parallel stream. Custom {@link IOutputCommand}
      * implementations must be thread-safe.
      */
-    void run(final String aDirectory,
-             final ITransformationAlgorithm aTransformationAlgorithm,
-             final IValidationAlgorithm aValidationAlgorithm,
-             final IOutputCommand anOutputCommand) {
+    @Override
+    ExciteResult run(final String aDirectory,
+                     final ITransformationAlgorithm aTransformationAlgorithm,
+                     final IValidationAlgorithm aValidationAlgorithm,
+                     final IOutputCommand anOutputCommand) {
         if (aDirectory == null) throw new IllegalArgumentException('aDirectory must not be null')
         if (aTransformationAlgorithm == null) throw new IllegalArgumentException('aTransformationAlgorithm must not be null')
         if (aValidationAlgorithm == null) throw new IllegalArgumentException('aValidationAlgorithm must not be null')
         if (anOutputCommand == null) throw new IllegalArgumentException('anOutputCommand must not be null')
         log.debug('Running Excite against directory: {}', aDirectory)
         List<File> filesInDirectory = this.fileSystemService.getFilesInDirectory(aDirectory, GET_ONLY_XML_FILES)
+        AtomicInteger processedCount = new AtomicInteger(0)
         filesInDirectory.parallelStream().forEach { File curFile ->
             try {
                 GPathResult fileContents = this.fileParser.parseFile(curFile)
-                if (aValidationAlgorithm.validate(fileContents)) {
-                    String transformedContent = this.markupTransformer.transform(fileContents, aTransformationAlgorithm)
+                GPathResultXmlNode xmlNode = new GPathResultXmlNode(fileContents)
+                if (aValidationAlgorithm.validate(xmlNode)) {
+                    aTransformationAlgorithm.execute(xmlNode)
+                    String transformedContent = this.markupTransformer.serialize(xmlNode.getGPathResult())
                     anOutputCommand.execute(curFile, transformedContent)
+                    processedCount.incrementAndGet()
                 }
             } catch (ExciteException e) {
                 log.error('Failed to process file: {}', curFile.absolutePath, e)
@@ -83,6 +90,7 @@ class ExciteFacadeImpl implements IExciteFacade {
                 throw new ExciteException("Failed to process file: ${curFile.absolutePath}", e)
             }
         }
-        log.info('Processed {} file(s) in: {}', filesInDirectory.size(), aDirectory)
+        log.info('Processed {} file(s) in: {}', processedCount.get(), aDirectory)
+        return new ExciteResult(processedCount.get())
     }
 }

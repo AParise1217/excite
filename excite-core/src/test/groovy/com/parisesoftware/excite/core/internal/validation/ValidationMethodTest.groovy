@@ -1,7 +1,6 @@
 package com.parisesoftware.excite.core.internal.validation
 
-import groovy.xml.XmlSlurper
-import groovy.xml.slurpersupport.GPathResult
+import com.parisesoftware.excite.core.api.XmlNode
 import spock.lang.Specification
 
 class ValidationMethodTest extends Specification {
@@ -11,12 +10,11 @@ class ValidationMethodTest extends Specification {
         ValidationMethod.ACCEPT_ALL.test(null) == false
     }
 
-    def "ACCEPT_ALL predicate returns true for a valid GPathResult"() {
+    def "ACCEPT_ALL predicate returns true for a valid XmlNode"() {
         given:
-        GPathResult node = new XmlSlurper().parseText('<root/>')
+        XmlNode node = Mock(XmlNode)
 
         expect:
         ValidationMethod.ACCEPT_ALL.test(node) == true
     }
-
 }

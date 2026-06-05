@@ -17,9 +17,10 @@ interface IExciteFacade {
      * @param aTransformationAlgorithm to perform on the files that pass the validation
      * @param aValidationAlgorithm to filter the discovered files in the given directory
      * @param anOutputCommand to handle exporting the resultant transformed content
+     * @return ExciteResult containing execution details
      * @since 1.0.1
      */
-    void run(final String aDirectory, final ITransformationAlgorithm aTransformationAlgorithm,
-             final IValidationAlgorithm aValidationAlgorithm, final IOutputCommand anOutputCommand)
+    ExciteResult run(final String aDirectory, final ITransformationAlgorithm aTransformationAlgorithm,
+                     final IValidationAlgorithm aValidationAlgorithm, final IOutputCommand anOutputCommand)
 
 }

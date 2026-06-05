@@ -1,6 +1,5 @@
 package com.parisesoftware.excite.core.internal.transformer
 
-import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import com.parisesoftware.excite.core.api.executor.IMarkupTransformer
 import groovy.xml.slurpersupport.GPathResult
 import groovy.xml.XmlUtil
@@ -23,9 +22,8 @@ class MarkupTransformer implements IMarkupTransformer {
      * {@inheritDoc}
      */
     @Override
-    String transform(GPathResult theInputComponent, ITransformationAlgorithm aTransformationAlgorithm) {
-        log.debug('Transforming markup')
-        aTransformationAlgorithm.execute(theInputComponent)
-        return XmlUtil.serialize(theInputComponent)
+    String serialize(GPathResult node) {
+        log.debug('Serializing markup')
+        return XmlUtil.serialize(node)
     }
 }

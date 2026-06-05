@@ -1,12 +1,11 @@
 package com.parisesoftware.excite.core.api.executor
 
-import com.parisesoftware.excite.core.api.ITransformationAlgorithm
 import groovy.xml.slurpersupport.GPathResult
 
 /**
  * Markup Transformer Abstraction
  * <p>
- * Delegation to handle the transformation of XML Markup
+ * Delegation to handle the serialization of XML Markup
  *
  * @version 1.0.2
  * @since 1.0.0
@@ -14,13 +13,12 @@ import groovy.xml.slurpersupport.GPathResult
 interface IMarkupTransformer {
 
     /**
-     * Transforms the given Input Component using the given Transformation Algo and returns the updated Schema
-     * @version 1.0.1
-     * @param theInputComponent
-     * @param aTransformationAlgorithm
-     * @return {@code String} representation of the Transformed Component
-     * @since 1.0.1
+     * Serializes the given XML node to a string representation
+     * @version 1.0.2
+     * @param node the GPathResult to serialize
+     * @return {@code String} representation of the node
+     * @since 1.0.2
      */
-    String transform(GPathResult theInputComponent, ITransformationAlgorithm aTransformationAlgorithm)
+    String serialize(GPathResult node)
 
 }
